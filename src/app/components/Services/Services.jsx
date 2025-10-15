@@ -1,5 +1,7 @@
 import dbConnect, { collectionNameObject } from "@/lib/dbConnect";
 import Image from "next/image";
+import { FaArrowAltCircleRight } from "react-icons/fa";
+
 
 const Services = async () => {
     //Get services data from database
@@ -21,23 +23,27 @@ const Services = async () => {
                     services.map(service => (
                         <div
                             key={service._id}
-                            className="card max-w-96 max-h-80 shadow-sm bg-base-100 rounded-lg  hover:shadow-xl transition-shadow duration-300 mx-auto">
-                            <div className="px-10 pt-10">
-                                <Image
-                                    src={service.img}
-                                    alt={service.title}
-                                    width={400}
-                                    height={300}
-                                    className="rounded-xl"
-                                />
-                            </div>
+                            className="max-w-xs w-full bg-white border border-gray-200 rounded-xl shadow hover:shadow-md transition-shadow duration-200 mx-auto flex flex-col overflow-hidden">
+                            <Image
+                                src={service.img}
+                                alt={service.title}
+                                width={400}
+                                height={220}
+                                className="w-full h-44 object-cover"
+                            />
+                            <div className="flex-1 flex flex-col justify-between p-5">
+                                <h2 className="text-lg font-bold text-gray-800 text-center mb-2">{service.title}</h2>
+                                <div className="flex items-center justify-between mt-4">
+                                    <span className="text-base text-gray-700 font-medium">Price: ${service.price}</span>
 
-                            <div className="card-body items-start text-center">
-                                <h2 className="text-2xl font-bold">{service.title}</h2>
-
-                                <button className="text-red-500 text-xl font-semibold">Price: $ <span>{service.price}</span></button>
+                                    <button className="flex items-center gap-1 text-emerald-600 hover:text-emerald-800 font-semibold transition-colors">
+                                        <span className="text-sm">Details</span>
+                                        <FaArrowAltCircleRight className="text-xl" />
+                                    </button>
+                                </div>
                             </div>
-                        </div>))
+                        </div>
+                    ))
                 }
             </div>
         </div >
