@@ -1,5 +1,6 @@
 import dbConnect, { collectionNameObject } from "@/lib/dbConnect";
 import Image from "next/image";
+import Link from "next/link";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 
 
@@ -36,10 +37,14 @@ const Services = async () => {
                                 <div className="flex items-center justify-between mt-4">
                                     <span className="text-base text-gray-700 font-medium">Price: ${service.price}</span>
 
-                                    <button className="flex items-center gap-1 text-emerald-600 hover:text-emerald-800 font-semibold transition-colors">
-                                        <span className="text-sm">Details</span>
-                                        <FaArrowAltCircleRight className="text-xl" />
-                                    </button>
+
+                                    {/* Details Button */}
+                                    <Link href={`/service/${service._id}`}>
+                                        <button className="flex items-center gap-1 text-emerald-600 hover:text-emerald-800 font-semibold transition-colors">
+                                            <span className="text-sm">Details</span>
+                                            <FaArrowAltCircleRight className="text-xl" />
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

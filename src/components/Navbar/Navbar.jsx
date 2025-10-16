@@ -1,17 +1,37 @@
+"use client";
 import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
-import Logo from "../../../public/assets/icons/LogoOne.png"
+import { usePathname } from 'next/navigation';
+import Logo from "../../../public/assets/icons/LogoOne.png";
 
 const Navbar = () => {
+    const pathname = usePathname();
 
-    const NavLinks = <>
-        <Link href={"/"}><li>Home</li></Link>
-        <Link href={"/about"}><li>About</li></Link>
-        <Link href={"services"}><li>Services</li></Link>
-        <Link href={"/blogs"}><li>Blogs</li></Link>
-        <Link href={"/contact"}><li>Contact</li></Link>
-    </>
+    const links = [
+        { href: '/', label: 'Home', match: (p) => p === '/' },
+        { href: '/about', label: 'About', match: (p) => p.startsWith('/about') },
+        { href: '/service', label: 'Service', match: (p) => p.startsWith('/service') || p.startsWith('/service') },
+        { href: '/blogs', label: 'Blogs', match: (p) => p.startsWith('/blogs') },
+        { href: '/contact', label: 'Contact', match: (p) => p.startsWith('/contact') },
+    ];
+
+    const NavLinks = (
+        <>
+            {links.map(({ href, label, match }) => {
+                const active = match(pathname || '/');
+                const liClass = active ? 'border-b-2 border-emerald-600' : '';
+                const linkClass = `px-2 ${active ? 'text-emerald-700 font-semibold' : 'text-gray-700 hover:text-emerald-700'}`;
+                return (
+                    <li key={href} className={liClass}>
+                        <Link href={href} aria-current={active ? 'page' : undefined} className={linkClass}>
+                            {label}
+                        </Link>
+                    </li>
+                );
+            })}
+        </>
+    );
 
     return (
         <div>
@@ -23,11 +43,9 @@ const Navbar = () => {
                         </div>
 
                         <ul
-                            tabIndex="-1"
+                            tabIndex={-1}
                             className="menu menu-sm dropdown-content bg-base-100 text-lg font-semibold rounded-box z-1 mt-3 w-52 p-2 shadow text-red-800">
-                            {
-                                NavLinks
-                            }
+                            {NavLinks}
                         </ul>
                     </div>
                     <Link href={"/"} >
@@ -37,18 +55,34 @@ const Navbar = () => {
                 </div>
 
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal flex justify-center items-center gap-5  text-lg font-semibold">
-                        {
-                            NavLinks
-                        }
+                    <ul className="menu menu-horizontal flex justify-center items-center gap-5 text-lg font-semibold">
+                        {NavLinks}
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <button className="btn bg-emerald-600 hover:bg-emerald-700 text-white border-none px-8 py-5 rounded-lg text-lg font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
+                    
+                    <Link
+                        href="/register"
+                        aria-current={pathname === '/register' ? 'page' : undefined}
+                        className={`text-lg font-semibold px-2 ${pathname === '/register' ? 'text-emerald-700 border-b-2 border-emerald-600' : 'text-gray-700 hover:text-emerald-700'}`}
+                    >
+                        Register
+                    </Link>
+                    <Link
+                        href="/login"
+                        aria-current={pathname === '/login' ? 'page' : undefined}
+                        className={`text-lg font-semibold px-2 mr-2 ${pathname === '/login' ? 'text-emerald-700 border-b-2 border-emerald-600' : 'text-gray-700 hover:text-emerald-700'}`}
+                    >
+                        Login
+                    </Link>
+
+                    <button className="btn px-8 py-5 rounded-lg text-lg font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
                         Appointment
                     </button>
                 </div>
             </div>
         </div>
     );
-}; export default Navbar;
+};
+
+export default Navbar;
